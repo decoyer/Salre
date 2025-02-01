@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
+<mapper namespace="com.salre.main.myPage.ReportDAO">
+    <insert id="insertReport" parameterType="map">
+        INSERT INTO report(
+        user_id,
+        product_id,
+        report_content,
+        report_class,
+        status
+        )
+        VALUES (
+        #{user_id},
+        #{product_id},
+        #{report_content},
+        #{report_class},
+        #{status}
+        )
+        
+	</insert>
+</mapper>

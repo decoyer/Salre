@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.salre.main.notify">
+	<select id="select" parameterType="int" resultType="notifyVO">
+		SELECT *
+		FROM notification
+		WHERE user_id = #{user_id}
+		ORDER BY 5 DESC;
+	</select>
+
+	<select id="selectById" parameterType="int" resultType="notifyVO">
+		SELECT *
+		FROM notification
+		WHERE notify_id = #{notify_id};
+	</select>
+
+	<select id="selectUnread" parameterType="int" resultType="notifyVO">
+		SELECT *
+		FROM notification
+		WHERE user_id = #{user_id}
+		AND is_check = false;
+	</select>
+
+	<insert id="insert" parameterType="notifyVO">
+		INSERT INTO notification (user_id, notify_content, notify_url)
+		VALUES (#{user_id}, #{notify_content}, #{notify_url});
+	</insert>
+
+	<update id="update" parameterType="int">
+    	UPDATE notification
+    	SET is_check = true
+    	WHERE notify_id = #{notify_id};
+	</update>
+</mapper>

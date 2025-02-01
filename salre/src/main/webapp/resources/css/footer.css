@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+footer {
+    display: flex;
+    justify-content: center; /* 푸터 섹션들을 수평 가운데 정렬 */
+    align-items: flex-start; /* 섹션들을 상단에 정렬 */
+    flex-wrap: wrap; /* 화면 크기 줄어들 때 줄바꿈 허용 */
+    background: linear-gradient(90deg, #333, #4a4a5a); /* 어두운 블루 그라데이션 */
+    color: #fff;
+    padding: 20px 0;
+    flex-direction : row;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* 박스 쉐도우 추가 */
+    text-align: center; /* 전체적인 텍스트를 가운데 정렬 */
+}
+
+footer div {
+    margin: 0 auto; /* 섹션 간 여백 */
+    flex: 1 1 200px; /* 반응형에서 각 div의 최소 너비를 설정 */
+    text-align: center; /* 각 div 내부 텍스트 가운데 정렬 */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* 각 div 내부 요소들의 상단 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    min-height: 200px; /* 각 섹션의 최소 높이 설정 */
+}
+
+footer h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+footer ul {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+footer li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: #f4a261; /* 링크 포인트 컬러 */
+    text-decoration: none;
+    transition: color 0.3s ease; /* 부드러운 링크 색상 전환 */
+}
+
+footer a:hover {
+    color: #e76f51; /* 호버 시 더 진한 오렌지 색상 */
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    footer {
+        flex-direction: column; /* 화면이 좁아지면 수직 정렬 */
+    }
+
+    footer div {
+        margin: 15px 0; /* 상하 여백 추가 */
+        flex: none; /* 각 div가 전체 너비를 차지 */
+        width: 100%; /* div를 전체 너비로 설정 */
+        align-items: center; /* 작은 화면에서는 다시 가운데 정렬 */
+    }
+
+    footer h3 {
+        font-size: 16px; /* 화면이 작아지면 헤더 크기 줄이기 */
+    }
+
+    footer li {
+        margin-bottom: 8px; /* 리스트 간격 좁히기 */
+    }
+}
+
+@media (max-width: 480px) {
+    footer {
+        padding: 15px 10px; /* 전체 여백 축소 */
+    }
+
+    footer h3 {
+        font-size: 14px; /* 헤더 크기를 더 줄이기 */
+    }
+
+    footer a {
+        font-size: 14px; /* 링크 크기 축소 */
+    }
+}

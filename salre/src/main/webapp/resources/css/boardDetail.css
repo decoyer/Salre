@@ -1,0 +1,160 @@
+@charset "UTF-8";
+
+/*
+사용하기로 한 색상
+#E1C59D
+#CF8E4A
+#80543E
+
+#A9AB8E
+#455F9E
+#2C3562
+*/
+
+#dashboard {
+	background-color: #CF8E4A;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9; /* 페이지 배경 */
+}
+
+/* 헤더 스타일 */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(90deg, #333, #4a4a5a); /* 어두운 색 기반 그라디언트 */
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 박스 쉐도우 */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* 로고 스타일 */
+header .logo div {
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #fff;
+  
+  /* 오른쪽 아래 방향 텍스트 그림자 */
+  text-shadow: 
+    2px 2px 3px rgba(0, 0, 0, 0.3),
+    4px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* 로고 호버 효과 */
+header .logo div:hover {
+  text-shadow: 
+    3px 3px 4px rgba(0, 0, 0, 0.4),
+    6px 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 네비게이션 스타일 */
+header nav {
+  display: flex;
+  align-items: center;
+}
+
+header nav img {
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
+}
+
+header nav a {
+  margin: 0 15px;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #bbb; /* 기본 링크 색상 (밝은 회색) */
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* 메뉴 링크 기본 스타일 */
+header .menu nav a {
+  font-size: 20px;
+  font-weight: 600;
+  position: relative; /* 가상 요소 배치 기준 */
+  padding-bottom: 5px; /* 밑줄 공간 확보 */
+}
+
+/* 메뉴 링크 hover 시 밑줄 효과 */
+header .menu nav a::after {
+  content: '';
+  position: absolute;
+  right: 0; /* 오른쪽에서 시작 */
+  bottom: 0;
+  width: 0; /* 초기 너비 0 */
+  height: 2.5px;
+  background-color: #f4a261; /* 강조 색상 */
+  border-radius: 2px;
+  transition: width 0.3s ease-in-out; /* 너비에만 애니메이션 적용 */
+}
+
+header .menu nav a:hover::after {
+  width: 100%; /* 호버 시 전체 너비로 확장 */
+  left: 0; /* 왼쪽으로 확장 */
+  right: auto;
+}
+
+header .menu nav a:hover {
+  color: #f4a261; /* 호버 시 텍스트 색상 */
+}
+
+/* 로그인/회원가입 버튼 */
+header .auth a {
+  margin-left: 15px;
+  padding: 12px 25px;
+  background-color: #f4a261; /* 버튼 색상 */
+  color: #fff;
+  border-radius: 10px; /* 둥근 버튼 */
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header .auth a:hover {
+  background-color: #e76f51; /* 호버 시 색상 */
+  transform: translateY(-2px); /* 위로 살짝 올라가는 효과 */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 15px 20px;
+  }
+
+  header .logo {
+    margin-bottom: 15px;
+    font-size: 28px;
+  }
+
+  header nav {
+    flex-direction: column;
+  }
+
+  header nav a {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+
+  header .auth a {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}

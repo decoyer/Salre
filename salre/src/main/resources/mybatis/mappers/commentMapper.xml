@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salre.main.board.comment">
+	<insert id="register" parameterType="commentDTO">
+		INSERT INTO
+		COMMENT(user_id, board_id, comment_writer, comment_content)
+		VALUES(#{user_id}, #{board_id}, #{comment_writer}, #{comment_content})
+	</insert>
+	
+	<select id="selectAll" parameterType="Integer" resultType="commentDTO">
+		SELECT * FROM COMMENT WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<select id="selectByCommentId" parameterType="Integer" resultType="commentDTO">
+		SELECT * FROM COMMENT WHERE COMMENT_ID = #{comment_id}
+	</select>
+	
+	<update id="updateComment" parameterType="commentDTO">
+		UPDATE COMMENT SET COMMENT_CONTENT = #{comment_content} WHERE COMMENT_ID = #{comment_id}
+	</update>
+	
+	<delete id="deleteComment" parameterType="Integer">
+		DELETE FROM COMMENT WHERE COMMENT_ID = #{comment_id}
+	</delete>
+	
+	<select id="selectCommentCnt" parameterType="Integer" resultType="int">
+		SELECT COUNT(comment_id) FROM COMMENT WHERE board_id = #{board_id};
+	</select>
+</mapper>

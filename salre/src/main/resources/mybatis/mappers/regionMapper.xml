@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salre.main.product">
+
+    <!-- 모든 지역 조회 -->
+    <select id="selectAllRegion" resultType="RegionVO">
+        SELECT *
+        FROM region
+    </select>
+
+    <!-- 특정 지역 조회 -->
+    <select id="selectRegionById" parameterType="int" resultType="RegionVO">
+        SELECT *
+        FROM region
+        WHERE region_id = #{regionId}
+    </select>
+
+    <!-- 지역 추가 -->
+    <insert id="insertRegion" parameterType="RegionVO">
+        INSERT INTO region (province)
+        VALUES (#{province})
+    </insert>
+ 
+    <!-- 지역 수정 -->
+    <update id="updateRegion" parameterType="RegionVO">
+        UPDATE region
+        SET province = #{province}
+        WHERE region_id = #{regionId}
+    </update>
+
+    <!-- 지역 삭제 -->
+    <delete id="deleteRegion" parameterType="int">
+        DELETE FROM region 
+        WHERE region_id = #{regionId}
+    </delete>
+
+    <!-- 지역 수 카운트 -->
+    <select id="countRegion" resultType="int">
+        SELECT COUNT(*)
+        FROM region
+    </select>
+	<select id="selectIdByRegion" resultType = "int">
+		SELECT region_id
+		FROM region
+		WHERE province = #{regionName};
+	</select>
+</mapper>

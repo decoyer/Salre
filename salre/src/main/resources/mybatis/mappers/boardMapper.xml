@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salre.main.board">
+	<select id="selectAll" resultType="boardDTO">
+		SELECT * FROM BOARD ORDER BY 1 DESC
+	</select>
+	
+	<select id="selectByBoardId" parameterType="Integer" resultType="boardDTO">
+		SELECT * FROM BOARD WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<!-- 2024-12-26, 회원 정보(user_id, writer) 추가 필요 -->
+	<insert id="insert" parameterType="boardDTO">
+		INSERT INTO
+		BOARD(user_id, writer, board_class, board_title, board_content)
+		VALUES(#{user_id}, #{writer}, #{board_class}, #{board_title}, #{board_content})
+	</insert>
+	
+	<update id="updateClickCnt" parameterType="Integer">
+		UPDATE BOARD
+		SET CLICK_CNT = CLICK_CNT + 1
+		WHERE BOARD_ID = #{board_id}
+	</update>
+	
+	<delete id="delete" parameterType="Integer">
+		DELETE FROM BOARD WHERE BOARD_ID = #{board_id}
+	</delete>
+	
+	<update id="update" parameterType="boardDTO">
+		UPDATE BOARD
+		SET BOARD_TITLE = #{board_title}, BOARD_CONTENT = #{board_content}
+		WHERE BOARD_ID = #{board_id}
+	</update>
+	
+	<select id="paging" parameterType="HashMap" resultType="boardDTO">
+		SELECT * FROM BOARD WHERE board_class = #{type} ORDER BY 1 DESC LIMIT #{start}, #{limit}
+	</select>
+	
+	<select id="boardCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(board_id) FROM BOARD WHERE board_class = #{type}
+	</select>
+</mapper>

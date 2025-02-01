@@ -1,0 +1,194 @@
+@charset "UTF-8";
+
+.fab {
+    background-color: #E1C59D;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fab:hover {
+    background-color: #CF8E4A;
+    transform: scale(1.1);
+}
+.section2 {
+    position: relative; /* 부모 컨테이너 기준 위치 */
+}
+.section2 h2 {
+    font-size: 1.5em;
+    border-bottom: 2px solid #CF8E4A;
+    padding-bottom: 8px;
+    margin: 0;
+    color: #CF8E4A;
+     width: 95%; 
+}
+
+.section2 p {
+    font-weight : bold;
+    font-size: 0.9em; /* 약간 작은 크기 */
+    color: #CF8E4A; /* 강조 색상 */
+    margin: 0;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+body {
+    font-family: 'Noto Sans KR', Arial, sans-serif;
+    background-color: #FFF9ED; /* 노란 계열 배경 */
+    margin: 0;
+    padding: 0;
+    color: #000000; /* 기본 텍스트 검정 */
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #FFFFFF;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #80543E; /* 브라운 계열 */
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-size: 1.5em;
+    border-bottom: 2px solid #CF8E4A; /* 오렌지 계열 강조 */
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    color: #CF8E4A;
+}
+
+.form-group,
+.form-group2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px; /* 요소 간 간격 */
+}
+
+.form-group label,
+.form-group2 label {
+    font-weight: bold;
+    flex: 0 0 20%;
+    min-width: 120px;
+    text-align: right;
+    margin-right: 10px;
+    color: #000000; /* 레이블 검정 */
+}
+
+.form-group input,
+.form-group textarea,
+.form-group2 input {
+    flex: 1;
+    min-width: 150px;
+    padding: 10px;
+    border: 1px solid #E1C59D; /* 노란 계열 테두리 */
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #FFF4E3; /* 밝은 노란 배경 */
+    color: #000000; /* 검정 텍스트 */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group input {
+    flex: 1; /* 입력 필드가 가로를 채우도록 설정 */
+    padding-right: 30px; /* 오른쪽에 공간 추가 */
+}
+
+.input-group .unit {
+    position: absolute;
+    right: 10px; /* 입력 필드 오른쪽 끝 */
+    color: #888; /* 회색 텍스트 */
+    font-size: 1em;
+    pointer-events: none; /* 클릭되지 않도록 설정 */
+}
+
+textarea {
+    resize: vertical;
+    padding: 10px;
+    border: 1px solid #E1C59D; /* 노란 테두리 */
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1em;
+    background-color: #FFF4E3;
+    color: #000000; /* 텍스트 검정 */
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1em;
+    margin: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+.btn-primary {
+    background-color: #E1C59D; /* 메인 버튼 색상 */
+    color: #000000; /* 텍스트 검정 */
+}
+
+.btn-primary:hover {
+    background-color: #CF8E4A; /* 강조된 오렌지 */
+    color: #FFFFFF; /* 텍스트 흰색 */
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: #A9AB8E; /* 부드러운 보조 색상 */
+    color: #000000; /* 검정 텍스트 */
+}
+
+.btn-secondary:hover {
+    background-color: #80543E; /* 브라운 계열 강조 */
+    color: #FFFFFF; /* 흰색 텍스트 */
+}
+
+@media screen and (max-width: 768px) {
+    .form-group label,
+    .form-group2 label {
+        flex: 0 0 100%;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group2 input {
+        flex: 0 0 100%;
+        min-width: unset;
+    }
+    
+
+}

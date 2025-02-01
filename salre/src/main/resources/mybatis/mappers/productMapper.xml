@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salre.main.product">
+	
+	<select id="selectByContractId" parameterType="productVO" resultType="productVO">
+		select *
+		from product
+		join contract
+		using (product_id)
+		where contract_id = #{contract_id}
+	</select>
+<insert id="insert" parameterType="productVO">
+    INSERT INTO product 
+    (product_id, user_id, region_id, product_name, payment_type, product_status, view_count, address, address_detail, 
+     deposit, rentfee, area, product_type, floor, enter_day, room_count, bath_count, approve_day, park_count, 
+     manage_fee, direction, description, land_type, land_area, building_structure, building_usage, rental_area, 
+     loan1, loan2, loan3)
+    VALUES 
+    (#{product_id}, #{user_id}, #{region_id}, #{product_name}, #{payment_type}, #{product_status}, #{view_count}, #{address}, #{address_detail}, 
+     #{deposit}, #{rentfee}, #{area}, #{product_type}, #{floor}, #{enter_day}, #{room_count}, #{bath_count}, #{approve_day}, #{park_count}, 
+     #{manage_fee}, #{direction}, #{description}, #{land_type}, #{land_area}, #{building_structure}, #{building_usage}, #{rental_area}, 
+     #{loan1}, #{loan2}, #{loan3});
+</insert>
+
+
+    <update id="updateProduct" parameterType="productVO">
+        UPDATE product SET product_name=#{product_name}, payment_type=#{payment_type}, product_status=#{product_status}, view_count=#{view_count}, address=#{address}, address_detail=#{address_detail}, deposit=#{deposit}, rentfee=#{rentfee}, area=#{area}, product_type=#{product_type}, floor=#{floor}, enter_day=#{enter_day}, room_count=#{room_count}, bath_count=#{bath_count}, approve_day=#{approve_day}, park_count=#{park_count}, manage_fee=#{manage_fee}, direction=#{direction} WHERE product_id=#{product_id}
+    </update>
+
+    <delete id="deleteProduct" parameterType="int">
+        DELETE FROM product WHERE product_id=#{product_id}
+    </delete>
+
+    <select id="getProductById" parameterType="int" resultType="productVO">
+        SELECT * FROM product WHERE product_id=#{product_id}
+    </select>
+
+    <select id="selectAllProducts" resultType="productVO">
+        SELECT * FROM product
+    </select> 
+    <select id="searchProductsByKeyword" parameterType="string" resultType="productVO">
+	    SELECT *
+	    FROM product
+	    WHERE product_name LIKE CONCAT('%', #{keyword}, '%')
+	       OR address LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+ 
+    <select id="getProductByUserId" parameterType="int" resultType="productVO">
+        SELECT * FROM product WHERE user_id=#{user_id}  
+    </select>
+    <select id ="countProduct" resultType="int">
+    	SELECT COUNT(*) FROM product    
+    </select>
+    <select id = "nextId" resultType = "int">
+    	select Auto_increment 
+    	from information_schema.tables 
+    	where table_schema = 'salre'
+    	 and table_name = 'product'
+    </select>
+ <select id="searchByConditions" parameterType="productVO" resultType="productVO">  
+   SELECT * 
+    FROM product
+    WHERE 1=1
+    <if test="region_id != null">
+        AND region_id = #{region_id}
+    </if>
+    <if test="payment_type != null">
+        AND payment_type = #{payment_type}
+    </if>
+    <if test="product_status != null">
+        AND product_status = #{product_status}
+    </if>
+    <if test="room_count != null">
+        AND room_count = #{room_count}
+    </if>
+	<if test="floor != null and floor != -1">
+	    AND floor = #{floor}
+	</if>
+
+ 
+</select>
+<select id = "incrementViewCount" parameterType ="int">
+	UPDATE product
+	SET view_count = view_count + 1
+	WHERE product_id = #{product_id}
+</select>
+<select id ="findProductsByRegionCode" parameterType ="int" resultType = "productVO">
+	SELECT * 
+	FROM product
+	WHERE region_id = #{region_id}
+</select>
+
+<update id="updateProductStatusByContract" parameterType="map">
+    UPDATE product
+    SET product_status = #{product_status}
+    WHERE product_id = #{product_id}
+</update>
+</mapper>

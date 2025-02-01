@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace : 이름공간(group), 다른 mapper의 id와 중복시 구분하기 위함 -->
+<mapper namespace="com.salre.main.login.UserDAOInterface">
+
+ <!-- 리뷰 테이블 join/ResultMap 정의 -->
+    <resultMap id="reviewResultMap" type="com.salre.main.myPage.ReviewDTO">
+        <result column="review_id" property="review_id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="seller_id" property="seller_id"/>
+        <result column="review_rate" property="review_rate"/>
+        <result column="review_content" property="review_content"/> 
+        <result column="seller_name" property="seller_name"/> 
+        <result column="product_name" property="product_name"/> 
+          
+    </resultMap>
+
+
+   <!-- 회원가입 -->
+    <insert id="insertUser" parameterType="userVO">
+        INSERT INTO user (id, password, user_name, phone_num, email, resident_num, address, address_detail, resident_num2)
+        VALUES (#{id}, #{password}, #{user_name}, #{phone_num}, #{email}, #{resident_num}, #{address}, #{address_detail}, #{resident_num2})
+    </insert>
+
+
+	<!-- AND password = #{password}는 없어야함. userService 에서 bcrypt 검증했으므로 -->
+	<!--  테스트코드 용범씨코드기준  로그인
+	<select id="selectUserById" parameterType="map" resultType="userVO"> 
+	테스트코드(DTO/ parameterType="userVO" )
+	 <select id="selectUserById" parameterType="userVO" resultType="userVO">     
+        SELECT * 
+        FROM user 
+        WHERE id = #{id} AND password = #{password}  
+    </select> -->
+	 <select id="selectById" parameterType="int" resultType="userVO">
+		select *
+		from user
+		where user_id = #{aa}
+	</select>
+    
+    <!-- 로그인 -->
+    <select id="selectUserById" parameterType="string" resultType="userVO">
+    SELECT *  FROM user
+    WHERE id = #{id}
+	</select>
+    
+    
+    
+    <!-- 이메일로 ID 찾기 -->
+    <select id="findIdByEmailAndName" parameterType="map" resultType="string">
+        SELECT id
+        FROM user
+        WHERE email = #{email} AND user_name = #{name}
+    </select>
+    
+    
+	<!-- pw찾기 -->
+   <select id="checkUser" parameterType="map" resultType="string">
+        SELECT id FROM user WHERE id = #{id} AND email = #{email}
+    </select>
+
+    <update id="updatePassword" parameterType="map">
+        UPDATE user SET password = #{password} WHERE email = #{email}
+    </update>
+    
+    
+
+	<!-- 회원정보수정 -->
+    <update id="updateUser" parameterType="userVO">
+        UPDATE user
+        SET 
+            password = #{password},
+            user_name = #{user_name},
+            phone_num = #{phone_num},
+            email = #{email},
+            resident_num = #{resident_num},
+            address = #{address},
+            address_detail = #{address_detail},
+            auth_seller = #{auth_seller}
+        WHERE id = #{id}
+    </update>
+    
+    
+    <!-- 회원탈퇴 -->
+    <delete id="deleteUser" parameterType="string">
+    	DELETE FROM user
+    	WHERE id = #{id}
+    </delete>
+
+
+	<!-- ID중복체크/ 버튼 -->
+	<select id="selectUserById2" parameterType="string" resultType="userVO">
+	    SELECT * FROM user WHERE id = #{id}
+	</select>
+
+	<!-- email 중복체크 -->
+	<select id="countByEmail" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE email=#{email}
+	</select>
+
+    <!-- admin-handleBoardReport -->
+	<select id="getBoardReportsByUserId" parameterType="int">
+		SELECT r.*,  b.board_title
+		FROM report r
+		INNER JOIN `board` b ON r.user_id = b.user_id
+		WHERE b.user_id = #{user_id};
+	</select>
+	
+	
+	<!-- 마이페이지 - 나의 거래현황 - 후기작성 -->
+<!--    <insert id="insertReview" parameterType="ReviewDTO"> -->
+<!--         INSERT INTO review (user_id, seller_id, review_rate, review_content) -->
+<!--         VALUES (#{user_id}, #{seller_id}, #{review_rate}, #{review_content}) -->
+        
+<!--     </insert> -->
+       <insert id="insertReview" parameterType="map">
+    INSERT INTO review (user_id, seller_id, product_id,is_review, review_rate, review_content)
+    VALUES (
+        #{user_id},
+        #{seller_id},
+        #{product_id},
+        #{is_review},
+        #{review_rate},
+        #{review_content}
+    )
+	</insert>
+    <!-- <insert id="insertReview" parameterType="ReviewDTO">
+    INSERT INTO review (user_id, seller_id, review_rate, review_content)
+    VALUES (
+        #{user_id},
+        (SELECT user_id FROM product WHERE product_id = #{product_id}),
+        #{review_rate},
+        #{review_content}
+    )
+	</insert> -->
+
+    <!-- 마이페이지 - 나의 거래현황/ 거래목록 조회 (구매자)-->
+	<select id="getBuyerTransactionByUserId" parameterType="int" resultType="ProductVO">
+<!-- 		SELECT p.*, c.* 
+		FROM product p
+		INNER JOIN `contract` c ON p.user_id = c.user_id
+		WHERE c.user_id = #{user_id} -->
+
+		SELECT * 
+		FROM product p
+		INNER JOIN `contract` c ON p.product_id = c.product_id
+		WHERE c.user_id = #{user_id}
+	</select>
+	
+	<!-- 마이페이지 - 나의거래현황 - 거래완료 - 리뷰작성 -->
+	<select id="checkReviewExists" parameterType="ReviewDTO" resultType="int">
+    SELECT COUNT(*)
+    FROM review
+    WHERE user_id = #{user_id} AND product_id = #{product_id}
+	</select>
+
+	<!-- 마이페이지 - 나의 거래현황/ 거래목록 조회 (판매자)-->
+	<select id="getTransactionByUserId" parameterType="int" resultType="ProductVO">
+		SELECT * FROM product WHERE user_id = #{user_id}
+	</select>
+
+	<!-- 마이페이지 - 나의 관심매물 -->
+	<select id="getFavoritesByUserId" parameterType="int" resultType="ProductVO">
+		   SELECT 
+            p.product_id, 
+            p.product_name, 
+            p.deposit, 
+            p.rentfee, 
+            p.address 
+            <!-- p.image, -->
+           <!--  f.liked -->
+        FROM 
+            product p
+        INNER JOIN 
+            `like` l ON p.product_id = l.product_id
+        WHERE 
+            l.user_id = #{user_id}
+            AND l.is_liked = 1
+	</select>
+	
+	<!-- 관심 매물 추가 -->
+    <insert id="insertFavorite" parameterType="likeVO">
+        INSERT INTO `like` (product_id,user_id,is_liked)
+        VALUES (#{product_id},#{user_id},#{is_liked})
+    </insert>
+    
+    <!-- 관심 매물 변경(1>0) -->
+	<update id="updateFavorite" parameterType="likeVO">
+		    UPDATE `like`
+		    SET is_liked=0
+		    WHERE 
+		    user_id=#{user_id}
+		    AND product_id = #{product_id}
+		    
+	</update>
+
+    <!-- 관심 매물 삭제 -->
+    <delete id="deleteFavorite" parameterType="likeVO">
+        DELETE FROM `like`
+        WHERE user_id = #{user_id} 
+        AND product_id = #{product_id}
+        AND is_liked = true
+    </delete>
+	
+	
+    <!-- 마이페이지 - 내가 작성한 글 목록 조회/ 특정 사용자의 게시글 목록 조회 -->
+    <select id="selectPostsByUserId" parameterType="int" resultType="PostDTO">
+      SELECT * FROM board WHERE user_id = #{user_id}     	
+    </select>
+
+    <!-- 마이페이지 - 내가 작성한 후기 -->
+    <select id="selectReviewsByUserId" parameterType="int" resultMap="reviewResultMap">
+       <!--  SELECT * FROM review WHERE user_id = #{user_id} -->
+         SELECT 
+		    r.review_id,
+		    r.user_id AS buyer_id,
+		    r.seller_id,
+		    r.product_id,
+		    r.review_rate,
+		    r.review_content,
+		    p.product_name,
+		    u.id AS seller_name
+		FROM 
+		    review r
+		LEFT JOIN 
+		    product p ON r.product_id = p.product_id
+		LEFT JOIN 
+		    <!-- user u ON p.user_id = u.user_id -->
+		    user u ON r.seller_id = u.user_id
+		WHERE 
+		    r.user_id = #{user_id}
+    </select>
+   
+	<!--  마이페이지 - 내가 작성한 후기(수정)-->
+	<update id="updateReview" parameterType="map">
+		    UPDATE review
+		    SET review_rate = #{review_rate},
+		        review_content = #{review_content}
+		    WHERE review_id = #{review_id}
+	</update> 
+	
+	<!-- 마이페이지 - 내가 작성한 후기(삭제) -->
+	 <delete id="deleteReview" parameterType="int">
+	 	DELETE FROM review
+	 	WHERE review_id = #{review_id}
+	 </delete>
+ 
+     <!-- 마이페이지 - 내가 작성한 후기 -->
+    <select id="selectReportsByUserId" parameterType="int" resultType="ReportDTO">
+        SELECT * FROM report WHERE user_id = #{user_id}
+    </select>
+    
+    <!-- 마이페이지 - 회원정보수정/ updateUserInfo -->
+  <update id="updateUserInfo" parameterType="userVO">
+ 
+	     UPDATE user
+	     SET
+	    	  user_id=#{user_id},
+			  id=#{id}, 
+		      password = COALESCE(#{password}, password),
+		      user_name=#{user_name},
+		      phone_num=#{phone_num},
+		      email=#{email},
+		      resident_num=#{resident_num},
+		      address=#{address},
+		      address_detail=#{address_detail}
+		      
+		  WHERE id = #{id}   
+ 
+	</update>
+	
+	  <!-- admin-게시물신고내역조회 -->
+    <select id="selectAdminReportsByReportClass" parameterType="int" resultType="ReportDTO">
+      SELECT * 
+      FROM report 
+      WHERE report_class = #{report_class}    	
+    </select>
+    
+	  <!-- admin-매물신고내역조회 -->
+    <select id="selectAdminPropertiesReportsByReportClass" parameterType="int" resultType="ReportDTO">
+      SELECT * 
+      FROM report 
+      WHERE report_class = #{report_class}    	
+    </select>
+ 
+ 	 <!-- admin-신고처리무효화 -->
+	 <update id="updateReportStatus" parameterType="map">
+	    UPDATE report
+	    SET status = #{status}
+	    WHERE report_id = #{report_id}
+	 </update>
+	 
+	<!--  admin-매물삭제  --> 
+	 <delete id="deletePropertyById" parameterType="int">
+	    DELETE FROM property WHERE property_id = #{propertyId}
+	</delete>
+ 
+ 
+ 
+    
+</mapper>

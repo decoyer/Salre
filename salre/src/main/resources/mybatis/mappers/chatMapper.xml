@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.salre.main.chat">
+	<select id="checkDupChatRoom" parameterType="chatRoomDTO" resultType="Integer">
+		SELECT COUNT(*) FROM CHATROOM WHERE user_id = #{user_id} AND product_id = #{product_id}
+	</select>
+
+	<insert id="createChatRoom" parameterType="chatRoomDTO">
+		INSERT INTO CHATROOM(user_id, product_id, room_name)
+		VALUES(#{user_id}, #{product_id}, #{room_name})
+	</insert>
+	
+	<select id="selectByUserId" parameterType="chatRoomDTO" resultType="chatRoomDTO">
+		SELECT *,
+			   (SELECT chat_content FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) chat_content,
+			   (SELECT send_time FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) send_time,
+			   (SELECT COUNT(is_check) FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id AND user_id = CHATROOM.user_id AND is_check = 0) is_checkFalseCnt
+		FROM CHATROOM
+		WHERE user_id = #{user_id} OR product_id = #{product_id}
+	</select>
+	
+	<select id="getChatRoomInfo" parameterType="Integer" resultType="chatRoomDTO">
+		SELECT *,
+			   (SELECT chat_content FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) chat_content,
+			   (SELECT send_time FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id ORDER BY chat_id DESC LIMIT 1) send_time,
+			   (SELECT COUNT(is_check) FROM CHAT WHERE chatRoom_id = CHATROOM.chatRoom_id AND user_id = CHATROOM.user_id AND is_check = 0) is_checkFalseCnt
+		FROM CHATROOM
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="selectByChatRoomId" parameterType="Integer" resultType="chatRoomDTO">
+		SELECT * FROM CHATROOM WHERE chatRoom_id = #{chatRoom_id}
+	</select>
+	
+	<select id="selectPreChat" parameterType="Integer" resultType="chatDTO">
+		SELECT * FROM CHAT WHERE chatRoom_id = #{chatRoom_id}
+	</select>
+	
+	<insert id="insertSendMessage" parameterType="chatDTO">
+		INSERT INTO CHAT(chatRoom_id, user_id, sender, chat_content, send_time)
+		VALUES(#{chatRoom_id}, #{user_id}, #{sender}, #{chat_content}, #{send_time})
+	</insert>
+	
+	<update id="updateIsCheck" parameterType="Integer">
+		UPDATE CHAT SET is_check = 1 WHERE chatRoom_id = #{chatRoom_id} AND user_id != ${user_id};
+	</update>
+	
+	<select id="getProductByUserId" parameterType="Integer" resultType="productVO">
+		SELECT * FROM PRODUCT WHERE USER_ID = #{user_id}
+	</select>
+</mapper>
