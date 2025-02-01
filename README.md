@@ -4,7 +4,7 @@ P2P Realty Marketplace with *Spring Framework*
 using *MySQL Database*
 
 ## Details
-![mainpage](https://github.com/user-attachments/assets/475dca99-1acd-4200-a7bb-80586f569ae2)
+![mainpage](https://github.com/user-attachments/assets/d1fc7f82-1b53-4efd-a1bd-1e6fd5d8e9e8)
 
 ### <div align="center">찾고, 보고, 사고 내가 원하는 부동산</div>
 
