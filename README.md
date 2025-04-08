@@ -54,9 +54,6 @@ database.sql
     username=root
     password=1234
     ```
-- *database.sql*
-  - MySQL 기준 작성
-  - 데이터 추가, 수정, 삭제(유동적으로 활용 가능)
 
 ## Tasks
 - [ ] 관리자 페이지 기능 개선
